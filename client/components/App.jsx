@@ -1,26 +1,45 @@
-/*
- ./client/components/App.jsx
- */
 import React from 'react';
-import './app.css';
 
 export default class App extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            component:"blockquote"
+        };
+
+        this.toggleComponent = this.toggleComponent.bind(this);
+    }
+
+    toggleComponent(){
+        if(this.state.component === "blockquote"){
+            this.setState({
+                component:"para"
+            })
+        }else{
+            this.setState({
+                component:"blockquote"
+            })
+        }
+    }
+
+    loadComponentDynamically(componentName){
+        const module = require(`./${componentName}`);
+        const Component = module.default;
+        return <Component/>;
+    }
+
     render() {
+        let componentToRender = this.loadComponentDynamically(this.state.component);
         return (
             <div>
                 <h1 style={{textAlign: 'center'}}>Importing CSS in JS</h1>
-                <div className="elem">
-                    <span className="label">&lt;div class="blockquote"></span>
-                    <div className="blockquote">
-                        <ol>
-                            <li><u>app.css</u> loaded by <b>CSS-Loader</b> in to <u>app.jsx</u> by Webpack</li>
-                            <li><u>blockquote</u> css value is injected into <u>head tag</u> as <u>style tag</u> by <b>style-loader</b></li>
-                        </ol>
-
-                    </div>
-                    <span className="endlabel">&lt;/div></span>
+                <h1>Demo</h1>
+                <span>To check dynamic injection of Style tag in Head tag click: </span><button onClick={this.toggleComponent}>Toggle</button>
+                <br/><br/>
+                <div style={{display:"flex",justifyContent: "space-around"}}>
+                    {componentToRender}
                 </div>
-
-            </div>);
+            </div>
+        );
     }
 }
