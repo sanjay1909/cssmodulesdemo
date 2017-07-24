@@ -1,5 +1,8 @@
 import React from 'react';
-import StyleTag from './styleTag';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import StyleTag from './components/styleTag';
+import Reason from './markdown/reason';
+import './app.normal.css';
 
 export default class App extends React.Component {
     constructor(props){
@@ -46,14 +49,14 @@ export default class App extends React.Component {
         let BlockquoteComponent;
         let ParaComponent;
         if(!this.blockquoteModule){
-            this.blockquoteModule = require(`./${componentName}`);
+            this.blockquoteModule = require(`./components/${componentName}`);
         }
         BlockquoteComponent = this.blockquoteModule.default["blockquote"];
         this.blockquoteLocalScopeName = this.blockquoteModule.default["styles"]["blockquote"];
 
         if(injectPara){
             if(!this.paraModule){
-                this.paraModule = require(`./${componentName}`);
+                this.paraModule = require(`./components/${componentName}`);
 
             }
             ParaComponent = this.paraModule.default["para"];
@@ -87,18 +90,33 @@ export default class App extends React.Component {
         return (
             <div>
                 <h1 style={{textAlign: 'center'}}>Importing CSS in JS</h1>
-                <h1>Demo</h1>
-                <br/><br/>
-                <div><span><b>1. </b>To view dynamic injection of <b>Style tag</b> in <b>Head tag</b> click: </span><button onClick={this.toggleComponent}>Insert Para React Component</button></div>
-                <div><span><b>2. </b>To see what if <b>CSS module</b> option enabled, click  </span><button onClick={this.toggleCSSModuleScope}>{scopeButtonName}</button></div>
-                <br/><br/><div style={{display:"flex",justifyContent: "space-around",flexDirection:"column", padding:"20px"}}>
-                    {styleTags}
-                </div>
-                <br/><br/>
-                <div style={{display:"flex",justifyContent: "space-around",flexDirection:"column", padding:"20px"}}>
-                    {this.blockquoteComponent}
-                    {this.paraComponent}
-                </div>
+                <Tabs>
+                    <TabList>
+                        <Tab>Why?</Tab>
+                        <Tab>Demo</Tab>
+                    </TabList>
+
+                    <TabPanel>
+                        <Reason/>
+                    </TabPanel>
+                    <TabPanel>
+                        <div>
+                            <h1>Demo</h1>
+                            <br/><br/>
+                            <div><span><b>1. </b>To view dynamic injection of <b>Style tag</b> in <b>Head tag</b> click: </span><button onClick={this.toggleComponent}>Insert Para React Component</button></div>
+                            <div><span><b>2. </b>To see what if <b>CSS module</b> option enabled, click  </span><button onClick={this.toggleCSSModuleScope}>{scopeButtonName}</button></div>
+                            <br/><br/><div style={{display:"flex",justifyContent: "space-around", padding:"20px"}}>
+                            {styleTags}
+                        </div>
+                            <br/><br/>
+                            <div style={{display:"flex",justifyContent: "space-around", padding:"20px"}}>
+                                {this.blockquoteComponent}
+                                {this.paraComponent}
+                            </div>
+
+                        </div>
+                    </TabPanel>
+                </Tabs>
             </div>
         );
     }
