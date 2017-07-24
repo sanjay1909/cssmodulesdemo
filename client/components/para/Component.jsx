@@ -26,7 +26,7 @@ export default class Para extends React.Component {
 
         return (
             <Block htmlType="div" blockClass={blockClass}>
-                Blockquote React component with CSS value <u>blockquote</u>
+                Para React component with CSS value <u>para</u>
                 {description}
             </Block>
         );

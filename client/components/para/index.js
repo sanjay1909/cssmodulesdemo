@@ -1,3 +1,8 @@
-import { default as Blockquote } from './Component';
+import { default as Para } from './Component';
 
-export default Blockquote;
+import styles from './style.module.css';
+
+export default {
+    para: Para,
+    styles
+};
