@@ -14,7 +14,9 @@ module.exports = {
         loaders: [
             { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
             { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.css$/, loader: ['style-loader','css-loader'] }//Loaders are processed in reverse array order. That means css-loader will run before style-loader
+            { test: /\.normal.css$/, loader: ['style-loader','css-loader'] },//Loaders are processed in reverse array order. That means css-loader will run before style-loader
+            { test: /\.module.css$/, use: ['style-loader', {loader: 'css-loader', options: { modules: true }, }],
+            }
         ]
     },
     resolve: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import './style.normal.css';
 
 export default class Block extends React.Component {
     render() {
