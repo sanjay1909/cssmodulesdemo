@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "./node_modules/.bin/webpack --progress --config webpack.config.js"
+    "build": "./node_modules/.bin/webpack --progress --config webpack.config.js",
+    "publish": "git subtree push --prefix dist origin gh-pages"
   },
   "author": "",
   "license": "ISC",
