@@ -1,33 +1,30 @@
 import React from 'react';
+import Loader from './Loader';
 import StyleTag from './../../components/styleTag';
+
+let loader = new Loader();
 
 export default class Demo extends React.Component {
     constructor(props){
         super(props);
+        loader.loadComponent(props.defaultComponent);
         this.state = {
-            component:"blockquote",
-            showLocal:false,
-            injectPara: false
+            components:[props.defaultComponent],
+            showLocal:false
         };
-        this.toggleComponent = this.toggleComponent.bind(this);
+        this.addComponent = this.addComponent.bind(this);
         this.toggleCSSModuleScope = this.toggleCSSModuleScope.bind(this);
-
-        this.paraLocalScopeName;
-        this.paraModule;
-        this.paraComponent;
-
-        this.blockquoteLocalScopeName;
-        this.blockquoteModule;
-        this.blockquoteComponent;
     }
 
-
-    toggleComponent(){
-        if(this.state.component === "blockquote"){
+    addComponent(){
+        var name = "para";
+        if(this.state.components.indexOf(name) == -1 ){
+            var clone = this.state.components.slice(0);
+            clone.push(name);
+            loader.loadComponent(name);
             this.setState({
-                component:"para",
-                injectPara: true
-            })
+                components:clone
+            });
         }
     }
 
@@ -43,55 +40,52 @@ export default class Demo extends React.Component {
         }
     }
 
-    loadComponentDynamically(componentName,showLocalScope,injectPara){
-        let BlockquoteComponent;
-        let ParaComponent;
-        if(!this.blockquoteModule){
-            this.blockquoteModule = require(`./../../components/${componentName}`);
-        }
-        BlockquoteComponent = this.blockquoteModule.default["blockquote"];
-        this.blockquoteLocalScopeName = this.blockquoteModule.default["styles"]["blockquote"];
-
-        if(injectPara){
-            if(!this.paraModule){
-                this.paraModule = require(`./../../components/${componentName}`);
-
-            }
-            ParaComponent = this.paraModule.default["para"];
-            this.paraLocalScopeName = this.paraModule.default["styles"]["para"];
+    renderComponents(loader,localScopeEnabled,names){
+        let componentsNames = names;
+        if(!names){
+            componentsNames = loader.getComponentNames();
         }
 
-        if(showLocalScope){
-            this.blockquoteComponent = <BlockquoteComponent isLocal={true}/>
-            if(injectPara){
-                this.paraComponent = <ParaComponent isLocal={true}/>
+        let components = componentsNames.map(function(name,index){
+            let Component = loader.getComponent(name);
+            if(localScopeEnabled){
+                return <Component isLocal={true} key={name}/>;
+            }else{
+                return <Component key={name}/>;
             }
-        }
-        else{
-            this.blockquoteComponent = <BlockquoteComponent/>
-            if(injectPara){
-                this.paraComponent = <ParaComponent/>
-            }
-        }
+        });
+        return components;
     }
+
+    renderStyleTags(loader,localScopeEnabled,names){
+        let componentsNames = names;
+        if(!names){
+            componentsNames = loader.getComponentNames();
+        }
+
+        let styleComponents = componentsNames.map(function(name,index){
+            const localCSSname = loader.getComponentLocalCSS(name);
+            if(localScopeEnabled){
+                return <StyleTag cssGlobalName={name} key={name} cssLocalName={localCSSname} isLocal={true}/>;
+            }else{
+                return <StyleTag cssGlobalName={name} key={name}/>;
+            }
+        });
+        return styleComponents;
+    }
+
 
     render() {
         let flexstyle = {display:"flex",justifyContent: "space-around", padding:"20px",alignItems:"flex-start"};
-        this.loadComponentDynamically(this.state.component,this.state.showLocal, this.state.injectPara);
-        const styleTags = [];
-        let styleTag = this.state.showLocal ? <StyleTag key="blockquote" cssGlobalName="blockquote" cssLocalName={this.blockquoteLocalScopeName} isLocal={true}/> : <StyleTag key="blockquote" cssGlobalName="blockquote" />
-        styleTags.push(styleTag);
-        if(this.state.injectPara){
-            styleTag = this.state.showLocal ? <StyleTag key="para" cssGlobalName="para" cssLocalName={this.paraLocalScopeName} isLocal={true}/> : <StyleTag key="para" cssGlobalName="para" />
-            styleTags.push(styleTag);
-        }
+        const components = this.renderComponents(loader,this.state.showLocal,this.state.components);
+        const styleTags = this.renderStyleTags(loader,this.state.showLocal,this.state.components);
         let scopeButtonName = this.state.showLocal ? "disable" : "enable";
 
         return (
             <div style={{padding:"16px"}}>
                 <div>
                     <span><b>1. </b> Insert <b>React Component: Para </b>  </span>
-                    <button onClick={this.toggleComponent}>Render Para</button>
+                    <button onClick={this.addComponent}>Render Para</button>
                 </div>
                 <div>
                     <span><b>2. </b>Enable local scope for CSS: </span>
@@ -103,8 +97,7 @@ export default class Demo extends React.Component {
                 </div>
                 <br/><br/>
                 <div style={flexstyle}>
-                    {this.blockquoteComponent}
-                    {this.paraComponent}
+                    {components}
                 </div>
             </div>
         );

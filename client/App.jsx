@@ -31,7 +31,7 @@ export default class App extends React.Component {
                     </TabList>
                     <TabPanel><Why/></TabPanel>
                     <TabPanel><How/></TabPanel>
-                    <TabPanel><Demo/></TabPanel>
+                    <TabPanel><Demo defaultComponent="blockquote"/></TabPanel>
                 </Tabs>
             </div>
         );

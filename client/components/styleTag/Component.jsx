@@ -7,7 +7,7 @@ export default class StyleTag extends React.Component {
     constructor(props){
         super(props);
         this.cssComponents = {
-            "blockquote":"\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tbackground-color: #f1f1f1;\n\tpadding: 16px;\n\tborder-radius: 8px;\n",
+            "blockquote":"\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tbackground-color: #f1f1f1;\n\tpadding: 16px;\n",
             "para": "\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tpadding: 30px;\n"
         };
     }

@@ -1,5 +1,6 @@
 .elem {
-    border: solid #07b1c7 3px;
+    border: solid #07b1c7 3px;;
+    border-radius: 8px;
     position: relative;
 }
 
