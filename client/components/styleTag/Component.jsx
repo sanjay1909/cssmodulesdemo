@@ -1,14 +1,14 @@
 import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import Block from './../block';
-import './style.normal.css';
 
 
 export default class StyleTag extends React.Component {
     constructor(props){
         super(props);
         this.cssComponents = {
-            "blockquote":<div>font-size: 90%;<br/>font-weight: lighter;<br/>background-color: #f1f1f1;<br/>padding: 30px;<br/>border-radius: 10px;<br/>margin: 5px 10% 14px;</div>,
-            "para": <div>font-size: 90%;<br/>font-weight: lighter;<br/>padding: 30px;</div>
+            "blockquote":"\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tbackground-color: #f1f1f1;\n\tpadding: 16px;\n\tborder-radius: 8px;\n",
+            "para": "\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tpadding: 30px;\n"
         };
     }
 
@@ -22,18 +22,17 @@ export default class StyleTag extends React.Component {
     render() {
 
         let description;
-        const endBrace = "}";
         if(this.props.isLocal){
-            description = "." + this.props.cssLocalName  + " {";
+            description = "." + this.props.cssLocalName  + " {" + this.cssComponents[this.props.cssGlobalName] + "}";
         }else{
-            description = "." + this.props.cssGlobalName + " {";
+            description = "." + this.props.cssGlobalName + " {" + this.cssComponents[this.props.cssGlobalName] + "}";;
         }
 
         return (
             <Block htmlType="style" blockClass={null}>
-                {description}
-                {this.cssComponents[this.props.cssGlobalName]}
-                {endBrace}
+                <SyntaxHighlighter language="css">
+                    {description}
+                </SyntaxHighlighter>
             </Block>
         );
     }

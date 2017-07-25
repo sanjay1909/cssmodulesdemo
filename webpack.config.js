@@ -2,11 +2,12 @@
  ./webpack.config.js
  */
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './client/index.js',
     output: {
-        path: path.resolve('dist'),
+        path: path.resolve(__dirname,'dist'),
         filename: 'demo.js'
     },
     devtool: '#inline-source-map',
@@ -23,19 +24,12 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx']
     },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin() // Enable HMR
+    ],
     devServer: {
-        contentBase: './',
-        // modified bundle is served from memory at the relative path specified in publicPath
-        publicPath: './dist',
-        historyApiFallback: {
-            index: '/'
-        },
-        inline: true,/*In this mode a small webpack-dev-server client entry is added to the bundle which refresh the page on changes*/
-        port: 8080,
-        stats: {
-            chunks: false,
-            children: false
-        },
-        clientLogLevel: 'info'
+        hot: true, // Tell the dev-server we're using HMR
+        contentBase: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     }
 }
