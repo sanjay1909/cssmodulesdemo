@@ -3,29 +3,28 @@ import Loader from './Loader';
 import StyleTag from './../../components/styleTag';
 
 let loader = new Loader();
+let componentNames = ["blockquote","para"];
 
 export default class Demo extends React.Component {
     constructor(props){
         super(props);
-        loader.loadComponent(props.defaultComponent);
         this.state = {
-            components:[props.defaultComponent],
+            components:[],
             showLocal:false
         };
         this.addComponent = this.addComponent.bind(this);
         this.toggleCSSModuleScope = this.toggleCSSModuleScope.bind(this);
     }
 
-    addComponent(){
-        var name = "para";
-        if(this.state.components.indexOf(name) == -1 ){
-            var clone = this.state.components.slice(0);
-            clone.push(name);
-            loader.loadComponent(name);
-            this.setState({
-                components:clone
-            });
-        }
+    addComponent(event){
+        var name = event.target.name;
+        var clone = this.state.components.slice(0);
+        clone.push(name);
+        loader.loadComponent(name);
+        this.setState({
+            components:clone
+        });
+
     }
 
     toggleCSSModuleScope(){
@@ -40,6 +39,13 @@ export default class Demo extends React.Component {
         }
     }
 
+    renderButtons(names){
+        let buttons = names.map((name) => {
+            return <button key={name} name={name} onClick={this.addComponent}>Render {name}</button>
+        });
+        return buttons;
+    }
+
     renderComponents(loader,localScopeEnabled,names){
         let componentsNames = names;
         if(!names){
@@ -49,9 +55,9 @@ export default class Demo extends React.Component {
         let components = componentsNames.map(function(name,index){
             let Component = loader.getComponent(name);
             if(localScopeEnabled){
-                return <Component isLocal={true} key={name}/>;
+                return <Component isLocal={true} key={name + index}/>;
             }else{
-                return <Component key={name}/>;
+                return <Component key={name + index}/>;
             }
         });
         return components;
@@ -66,9 +72,9 @@ export default class Demo extends React.Component {
         let styleComponents = componentsNames.map(function(name,index){
             const localCSSname = loader.getComponentLocalCSS(name);
             if(localScopeEnabled){
-                return <StyleTag cssGlobalName={name} key={name} cssLocalName={localCSSname} isLocal={true}/>;
+                return <StyleTag cssGlobalName={name} key={name + index} cssLocalName={localCSSname} isLocal={true}/>;
             }else{
-                return <StyleTag cssGlobalName={name} key={name}/>;
+                return <StyleTag cssGlobalName={name} key={name + index}/>;
             }
         });
         return styleComponents;
@@ -77,6 +83,7 @@ export default class Demo extends React.Component {
 
     render() {
         let flexstyle = {display:"flex",justifyContent: "space-around", padding:"20px",alignItems:"flex-start"};
+        const buttons = this.renderButtons(componentNames);
         const components = this.renderComponents(loader,this.state.showLocal,this.state.components);
         const styleTags = this.renderStyleTags(loader,this.state.showLocal,this.state.components);
         let scopeButtonName = this.state.showLocal ? "disable" : "enable";
@@ -84,8 +91,8 @@ export default class Demo extends React.Component {
         return (
             <div style={{padding:"16px"}}>
                 <div>
-                    <span><b>1. </b> Insert <b>React Component: Para </b>  </span>
-                    <button onClick={this.addComponent}>Render Para</button>
+                    <span><b>1. </b> Insert <b>React Component</b></span>
+                    {buttons}
                 </div>
                 <div>
                     <span><b>2. </b>Enable local scope for CSS: </span>
