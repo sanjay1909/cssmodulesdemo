@@ -1,6 +1,14 @@
-.blockquote {
+/*local scope: blockquote =  */ .blockquote {
     font-size: 90%;
     font-weight: lighter;
     background-color: #f1f1f1;
     padding: 16px;
+}
+
+/*local scope: blockquote =  */ .blockquote /*local scope: title =  */.title  {
+    color: red;
+}
+
+/* global scope => .title */ :global .title {
+    color: green;
 }

@@ -25,7 +25,7 @@ export default class Para extends React.Component {
         }
 
         return (
-            <Block htmlType="div" blockClass={blockClass}>
+            <Block htmlType="div" blockClass={blockClass} color="#07b1c7">
                 {description}
             </Block>
         );

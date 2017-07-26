@@ -5,7 +5,8 @@ function hashComponent(name,dict){
         dict[name] = {
             module:null,
             klass:null,
-            localCSSname:null
+            localCSSname:null,
+            titleLocalCSSname:null
         }
     }
 };
@@ -34,6 +35,9 @@ Loader.prototype.loadComponent = function(name){
     if(!metadata.localCSSname){
         metadata.localCSSname =  metadata.module.default["styles"][name];
     }
+    if(!metadata.titleLocalCSSname){
+        metadata.titleLocalCSSname =  metadata.module.default["styles"]["title"];
+    }
 };
 Loader.prototype.getComponentNames = function(){
     return Object.keys(componentsDict);
@@ -51,4 +55,11 @@ Loader.prototype.getComponentLocalCSS = function(componentName){
     this.loadComponent(componentName);
     const componentMetadata = componentsDict[componentName]
     return componentMetadata.localCSSname;
+};
+
+Loader.prototype.getComponentTitleLocalCSS = function(componentName){
+    hashComponent(componentName,componentsDict);
+    this.loadComponent(componentName);
+    const componentMetadata = componentsDict[componentName]
+    return componentMetadata.titleLocalCSSname;
 };

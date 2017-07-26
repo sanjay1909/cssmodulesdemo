@@ -8,30 +8,45 @@ export default class StyleTag extends React.Component {
         super(props);
         this.cssComponents = {
             "blockquote":"\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tbackground-color: #f1f1f1;\n\tpadding: 16px;\n",
-            "para": "\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tpadding: 30px;\n"
+            "para": "\n\tfont-size: 90%;\n\tfont-weight: lighter;\n\tpadding: 30px;\n",
+            "title": "\n\tcolor: green;\n",
+            "blockquoteTitle": "\n\tcolor: red;\n"
         };
-    }
-
-    shouldComponentUpdate(nextProps){
-        if(this.props.cssLocalName !== nextProps.cssLocalName || this.props.cssGlobalName !== nextProps.cssGlobalName){
-            return true;
-        }
-        return false;
     }
 
     render() {
 
-        let description;
+        let componentCSS;
         if(this.props.isLocal){
-            description = "." + this.props.cssLocalName  + " {" + this.cssComponents[this.props.cssGlobalName] + "}";
+            componentCSS = "." + this.props.cssLocalName  + " {" + this.cssComponents[this.props.cssGlobalName] + "}";
         }else{
-            description = "." + this.props.cssGlobalName + " {" + this.cssComponents[this.props.cssGlobalName] + "}";;
+            componentCSS = "." + this.props.cssGlobalName + " {" + this.cssComponents[this.props.cssGlobalName] + "}";;
+        }
+
+        let combinedCSS;
+        if(this.props.isLocal){
+            combinedCSS = "." + this.props.cssLocalName  + " ." + this.props.cssLocalTitleName  + " {" + this.cssComponents["blockquoteTitle"] + "}";
+        }else{
+            combinedCSS = "." + this.props.cssGlobalName + " .title {" + this.cssComponents["blockquoteTitle"] + "}";
+        }
+
+        let titleCSS;
+        if(this.props.isLocal && !this.props.globalTagAdded){
+            titleCSS = " ." + this.props.cssLocalTitleName  + " {"  + this.cssComponents["title"] + "}";
+        }else{
+            titleCSS = " .title {" + this.cssComponents["title"] + "}";
         }
 
         return (
-            <Block htmlType="style" blockClass={null}>
+            <Block htmlType="style" blockClass={null} color="rgb(199, 111, 18)">
                 <SyntaxHighlighter language="css">
-                    {description}
+                    {componentCSS}
+                </SyntaxHighlighter>
+                <SyntaxHighlighter language="css">
+                    {combinedCSS}
+                </SyntaxHighlighter>
+                <SyntaxHighlighter language="css">
+                    {titleCSS}
                 </SyntaxHighlighter>
             </Block>
         );
