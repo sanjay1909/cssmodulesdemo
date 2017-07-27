@@ -9,6 +9,6 @@
     color: red;
 }
 
-/* global scope => .title */ :global .title {
+.title {
     color: green;
 }

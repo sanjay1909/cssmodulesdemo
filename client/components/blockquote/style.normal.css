@@ -4,3 +4,11 @@
     background-color: #f1f1f1;
     padding: 16px;
 }
+
+.blockquote .title  {
+    color: red;
+}
+
+.title {
+    color: green;
+}

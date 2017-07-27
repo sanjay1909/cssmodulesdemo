@@ -10,6 +10,9 @@ export default class Blockquote extends React.Component {
         let description;
         let title;
         let titleClass;
+        let titleStyle = {
+            padding:"8px"
+        };
         let blockquoteTitle;
         let blockquotetitleClass;
         if(this.props.isLocal){
@@ -40,7 +43,8 @@ export default class Blockquote extends React.Component {
         return (
         <div>
             <Block htmlType="div" blockClass={titleClass} color="#07b1c7">
-                <div style={{padding:"8px"}}> {title} </div>
+                <div  style={titleStyle}> {title} </div>
+
             </Block>
             <br/>
             <Block htmlType="div" blockClass={blockClass} color="#07b1c7">
