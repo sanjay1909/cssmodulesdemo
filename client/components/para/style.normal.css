@@ -3,3 +3,11 @@
     font-weight: lighter;
     padding: 30px;
 }
+
+.para .title  {
+    color: red;
+}
+
+.title {
+    color: green;
+}

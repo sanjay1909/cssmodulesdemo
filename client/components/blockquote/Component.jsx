@@ -41,10 +41,9 @@ export default class Blockquote extends React.Component {
         }
 
         return (
-        <div>
+        <div style={this.props.style}>
             <Block htmlType="div" blockClass={titleClass} color="#07b1c7">
                 <div  style={titleStyle}> {title} </div>
-
             </Block>
             <br/>
             <Block htmlType="div" blockClass={blockClass} color="#07b1c7">

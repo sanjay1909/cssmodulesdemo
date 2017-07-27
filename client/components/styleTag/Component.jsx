@@ -38,17 +38,19 @@ export default class StyleTag extends React.Component {
         }
 
         return (
-            <Block htmlType="style" blockClass={null} color="rgb(199, 111, 18)">
-                <SyntaxHighlighter language="css">
-                    {componentCSS}
-                </SyntaxHighlighter>
-                <SyntaxHighlighter language="css">
-                    {combinedCSS}
-                </SyntaxHighlighter>
-                <SyntaxHighlighter language="css">
-                    {titleCSS}
-                </SyntaxHighlighter>
-            </Block>
+            <div style={this.props.style}>
+                <Block htmlType="style" blockClass={null} color="rgb(199, 111, 18)" >
+                    <SyntaxHighlighter language="css">
+                        {componentCSS}
+                    </SyntaxHighlighter>
+                    <SyntaxHighlighter language="css">
+                        {combinedCSS}
+                    </SyntaxHighlighter>
+                    <SyntaxHighlighter language="css">
+                        {titleCSS}
+                    </SyntaxHighlighter>
+                </Block>
+            </div>
         );
     }
 }

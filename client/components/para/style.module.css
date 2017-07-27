@@ -3,3 +3,11 @@
     font-weight: lighter;
     padding: 30px;
 }
+
+/*local scope: para = */ .para /*local scope: title =*/.title  {
+                                    color: red;
+                         }
+
+.title {
+    color: green;
+}

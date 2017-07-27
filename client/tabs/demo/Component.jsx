@@ -69,7 +69,8 @@ export default class Demo extends React.Component {
             let Component = loader.getComponent(name);
             return <Component isLocal={localScopeEnabled}
                               titleGlobal={makeTitleGlobal}
-                              key={name + index}/>;
+                              key={name + index}
+                              style={{flex:".48"}}/>;
         });
         return components;
     }
@@ -88,7 +89,8 @@ export default class Demo extends React.Component {
                              cssLocalName={localCSSname}
                              cssLocalTitleName={cssLocalTitleName}
                              globalTagAdded={makeTitleGlobal}
-                             isLocal={localScopeEnabled}/>;
+                             isLocal={localScopeEnabled}
+                             style={{flex:".48"}}/>;
         });
         return styleComponents;
     }
